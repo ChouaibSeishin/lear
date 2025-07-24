@@ -1,0 +1,90 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+/*@import "@coreui/coreui/scss/coreui.scss";*/
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');*/
+
+html, body {
+  height: 100%;
+  overflow: auto;
+}
+
+
+
+select,input, textarea,.focus-ring{
+  --bs-focus-ring-width: 1px !important;
+  /*--bs-focus-ring-opacity: 0 !important;*/
+  --bs-focus-ring-color: #9d9b9b !important;
+  --bs-border-color:  #9d9b9b !important;
+}
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+h1, h2, h3, h4, h5, a, p ,span, th, td, span, .fw-semibold {
+  font-family: "inter", sans-serif !important;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+h1,h2,h3,h4,h5,th{
+  color:#283c50 !important;
+}
+th,td, .btn, label,.page-link, .form-group span, input[placeholder]{
+  font-size: 14px;
+}
+td, .form-group span{
+  font-weight: 300 !important;
+}
+th{
+
+  font-weight: 500 !important;
+}
+ .card{
+   border: 0 !important;
+   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+ }
+.container, .container-fluid {
+  padding: 1rem;
+}
+label{
+  color: var(--bs-secondary);
+}
+.pagination  .active .page-link{
+  color: var(--bs-light);
+  border-color: var(--bs-danger);
+  background: var(--bs-danger) ;
+
+}
+
+
+.pagination  .page-item:not(.active) .page-link{
+  color: var(--bs-danger);
+}
+
+.pagination  .page-item{
+  border:0;
+  cursor: pointer;
+}
+.focus-ring:focus{
+
+}
+.form-control {
+  border-color: #9d9b9b !important;
+}
+
+@media (max-width: 600px){
+  body{
+    filter: contrast(106%);
+  }
+
+
+
+}
+.modal{
+  align-items: center !important;
+  justify-content: center !important;
+  align-content: center;
+}
+.btn-close{
+  --bs-btn-close-focus-shadow: none !important;
+}

@@ -1,0 +1,67 @@
+<div class="container card mt-3 p-4" *ngIf="productionLine">
+  <h4>Production Line Details</h4>
+
+  <form (ngSubmit)="updateProductionLine()" #productionLineForm="ngForm" class="d-flex flex-column">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input
+        type="text"
+        class="form-control focus-ring"
+        name="name"
+        [(ngModel)]="productionLine.name"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea
+        type="text"
+        class="form-control focus-ring"
+        name="desc"
+        [(ngModel)]="productionLine.description"
+        required
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-dark mb-3 align-self-end" [disabled]="productionLineForm.invalid">
+      Update Production Line
+    </button>
+  </form>
+
+  <hr />
+
+  <h5>Machines</h5>
+  <div *ngIf="productionLine.machines?.length! > 0; else noMachines">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Brand</th>
+          <th class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let machine of productionLine.machines">
+          <td>{{ machine.id }}</td>
+          <td>{{ machine.name }}</td>
+          <td>{{ machine.type }}</td>
+          <td>{{ machine.brand }}</td>
+          <td class="text-center">
+            <a class="cursor-pointer" [routerLink]="['/machines/machine-details', machine.id]">
+              <i class="bi bi-eye text-info"></i>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #noMachines>
+    <p class="text-muted">No machines found for this production line.</p>
+  </ng-template>
+</div>

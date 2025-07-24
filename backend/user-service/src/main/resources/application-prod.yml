@@ -1,0 +1,98 @@
+# Server Port
+server:
+  port: 8086 # This is the internal container port
+  servlet:
+    context-path: / # Added context-path definition
+
+spring:
+  application:
+    name: user-service # Spring Application Name
+
+  # Database Configuration
+  datasource:
+    url: jdbc:mysql://mysql-user-db:3306/user_db # Uses Docker Compose service name for DB
+    username: ${MYSQL_USER_USERNAME} # Read from environment variable
+    password: ${MYSQL_USER_PASSWORD} # Read from environment variable
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update # Consider 'none' or 'validate' for production after initial setup
+    show-sql: false # Set to false for production to reduce log verbosity
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format-sql: false # Set to false for production
+
+  # Spring Cloud Configuration
+  cloud:
+    discovery:
+      enabled: true
+    config:
+      enabled: false # Disable Spring Cloud Config if not using a dedicated Config Server
+
+  # Mail Configuration
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+
+  # Multipart File Upload Configuration
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+# Eureka Discovery Configuration (top-level as it's not under 'spring' directly in your original)
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-discovery-service:8761/eureka/ # Uses Docker Compose service name for Eureka
+  instance:
+    prefer-ip-address: false # Prefer hostname (service name) for registration in Docker Compose
+    instance-id: ${spring.application.name}:${server.port} # Dynamic instance ID
+    hostname: user-service # Docker Compose service name
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+
+
+
+# JWT Secret
+jwt:
+  secret: ${JWT_SECRET} # Read from environment variable
+
+# Frontend Activation URL
+application:
+  mailing:
+    frontend:
+      activation-url: http://${VPS_HOST}:80/activate-account
+
+# Swagger/OpenAPI Documentation
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html

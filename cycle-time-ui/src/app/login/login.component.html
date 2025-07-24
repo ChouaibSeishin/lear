@@ -1,0 +1,72 @@
+<div
+  class="container-fluid vh-100 d-flex flex-column  mx-auto justify-content-center align-items-center vh-100 "
+>
+  <img src="../bg-login.jpg" class="login-bg ">
+<div class="mb-5 mt-2 w-auto">
+
+
+</div>
+
+<div class="col-12 col-md-3 p-3  login">
+  <div class="alert alert-danger animate__animated animate__shakeX" role="alert" *ngIf="errorMsg.length">
+    <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+  </div>
+  <h4 class="my-4   text-center text-light  ">Sign in</h4>
+  <form [formGroup]="formLogin" class="w-auto">
+    <div
+      class="row text-secondary  d-flex flex-column justify-content-center align-items-center"
+    >
+      <div class="form-group  col-md-12">
+
+        <input
+          required
+          formControlName="email"
+          placeholder="username"
+          type="text"
+          id="username"
+          name="username"
+          class="form-control focus-ring"
+        />
+      </div>
+      <div class="form-group col-md-12">
+        <div class="d-flex justify-content-between align-items-center  ">
+
+<!--          <a-->
+<!--            href="#"-->
+<!--            class="text-decoration-none text-red mb-2  "-->
+<!--          >Mot de Pass oublié?</a-->
+<!--          >-->
+        </div>
+        <input [type]="hide ? 'password' : 'text'"
+               matIconSuffix
+          formControlName="password"
+          type="password"
+          id="password"
+          class="form-control mb-3 focus-ring "
+          name="password"
+          placeholder="**********"
+          required
+        />
+      </div>
+
+      <div class=" mb-4 ">
+        <button (click)="handleAuthentication()" class="btn btn-outline-light     w-100    ">
+          Login
+        </button>
+      </div>
+
+    </div>
+
+  </form>
+
+</div>
+</div>
+<style>
+  .login-bg{
+
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+</style>

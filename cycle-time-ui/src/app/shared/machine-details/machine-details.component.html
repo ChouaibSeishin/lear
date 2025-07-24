@@ -1,0 +1,124 @@
+<div class="container card mt-3 p-4" *ngIf="machine">
+  <h4>Machine Details</h4>
+
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input type="text" class="form-control focus-ring" [(ngModel)]="machine.name" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <textarea class="form-control focus-ring" rows="3" [(ngModel)]="machine.description"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Brand</label>
+    <input type="text" class="form-control focus-ring" [(ngModel)]="machine.brand" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Type</label>
+    <select class="form-select" [(ngModel)]="machine.type">
+      <option value="AUTOMATIQUE">AUTOMATIQUE</option>
+      <option value="MANUAL">MANUAL</option>
+      <option value="SEMI_AUTO">SEMI_AUTO</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="lineId" class="form-label">Production Line</label>
+    <select class="form-control focus-ring" id="lineId" name="lineId"   [(ngModel)]="machine.productionLineId" required >
+<!--      <option  [selected]="machine.productionLineId==machineId?true:false"  [value]="machine.productionLineId == line.id ? machine.productionLineId : line.id" >{{ line.name }}</option>-->
+      <option *ngFor="let line of productionLines" [selected]="machine.productionLineId==line.id?true:false" [value]="line.id">{{line.name}}</option>
+      <option [value]="undefined"></option>
+
+    </select>
+  </div>
+
+  <button class="btn btn-danger align-self-md-end mb-3" (click)="updateMachine()">Update</button>
+
+  <hr />
+
+  <h5>Operations</h5>
+
+  <div class="d-flex flex-column flex-md-row gap-3 mb-3">
+
+    <input type="text" class="form-control focus-ring" placeholder="Operation Name" [(ngModel)]="newStep.name" />
+    <input type="text" class="form-control focus-ring" placeholder="Description" [(ngModel)]="newStep.description">
+
+    <input type="number" class="form-control focus-ring" placeholder="Order" [(ngModel)]="newStep.orderIndex" />
+    <div class="form-check w-100">
+      <input class="form-check-input" type="checkbox" [(ngModel)]="newStep.requiresManualTracking" />
+      <label class="form-check-label">Manual Tracking</label>
+
+     </div>
+    <button class="btn btn-dark "  (click)="addStep()">Add</button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Order</th>
+        <th>Manual?</th>
+        <th class="text-center">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let step of steps; let i = index">
+        <td>{{ step.id ?? i + 1 }}</td>
+        <td>{{ step.name }}</td>
+        <td>{{ step.description }}</td>
+        <td>{{ step.orderIndex }}</td>
+        <td>{{ step.requiresManualTracking ? 'Yes' : 'No' }}</td>
+        <td class="text-center">
+          <a class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#updateStepModal" (click)="openEditModal(step)">
+            <i class="bi bi-pencil-square text-success"></i>
+          </a>
+          <a class="cursor-pointer ms-3" (click)="deleteStep(step.id!)">
+            <i class="bi bi-trash2-fill text-danger"></i>
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal for editing step -->
+<div class="modal fade" id="updateStepModal" tabindex="-1" aria-labelledby="updateStepModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateStepModalLabel">Update Step</h5>
+        <button type="button" class="btn-close focus-ring" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Step Name</label>
+          <input type="text" class="form-control focus-ring" [(ngModel)]="editableStep.name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <input type="text" class="form-control focus-ring" [(ngModel)]="editableStep.description">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Order Index</label>
+          <input type="number" class="form-control focus-ring" [(ngModel)]="editableStep.orderIndex">
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="editableStep.requiresManualTracking">
+          <label class="form-check-label">Requires Manual Tracking</label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-dark" (click)="updateStep()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>

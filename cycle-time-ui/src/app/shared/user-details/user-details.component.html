@@ -1,0 +1,43 @@
+<div class="container card mt-3 p-4" *ngIf="user">
+  <h4>User Details</h4>
+
+  <div class="mb-3">
+    <label class="form-label">First Name</label>
+    <input type="text" class="form-control focus-ring" [(ngModel)]="user.firstName" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Last Name</label>
+    <input type="text" class="form-control focus-ring" [(ngModel)]="user.lastName" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="email" class="form-control focus-ring" [(ngModel)]="user.email" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Role</label>
+    <select class="form-select" [(ngModel)]="user.roleName">
+      <option *ngFor="let role of roles" [selected]="role==user.roleName">{{user.roleName == role?user.roleName:role}}</option>
+
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Code</label>
+    <input type="text" class="form-control focus-ring" [(ngModel)]="user.code" />
+  </div>
+
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="user.enabled" />
+    <label class="form-check-label">Enabled</label>
+  </div>
+
+  <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" [(ngModel)]="user.accountLocked" />
+    <label class="form-check-label">Account Locked</label>
+  </div>
+
+  <button class="btn btn-dark align-self-end" (click)="updateUser()" [disabled]="!tokenService.hasRole('ROLE_ADMIN')">Update User</button>
+</div>

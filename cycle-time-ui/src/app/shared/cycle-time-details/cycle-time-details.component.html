@@ -1,0 +1,177 @@
+<div class="container card mt-3 p-4" *ngIf="cycleTime">
+  <h4>Cycle Time Details</h4>
+
+  <div class="mb-3">
+    <label class="form-label">ID</label>
+    <input type="text" class="form-control focus-ring" [(ngModel)]="cycleTime.id" [disabled]="true" />
+  </div>
+
+
+
+  <div class="mb-3">
+    <label class="form-label">Duration</label>
+    <input
+      type="text"
+      class="form-control focus-ring"
+      [(ngModel)]="cycleTime.formattedDuration"
+      [disabled]="true"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Status</label>
+    <select [(ngModel)]="cycleTime.status" class="focus-ring form-select">
+      <option [value]="cycleTime.status" [selected]="cycleTime.status">{{cycleTime.status}}</option>
+      <option *ngIf="cycleTime.status!='PENDING'" value="PENDING">PENDING</option>
+      <option value="VALID" *ngIf="cycleTime.status!='VALID'">VALID</option>
+      <option value="REJECTED" *ngIf="cycleTime.status!='REJECTED'">REJECTED</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Start Time</label>
+    <input type="text" class="form-control focus-ring" [(ngModel)]="cycleTime.startTime"  [disabled]="true" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">End Time</label>
+    <input type="text" class="form-control focus-ring" [(ngModel)]="cycleTime.endTime" [disabled]="true" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Is Manual?</label>
+    <input type="checkbox" class="form-check-input ms-2" [(ngModel)]="cycleTime.isManual" [disabled]="true" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Record Type</label>
+    <select class="form-control focus-ring" [(ngModel)]="cycleTime.recordType" [disabled]="true">
+      <option value="MACHINE">MACHINE</option>
+      <option value="OPERATION">OPERATION</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Project ID</label>
+    <input type="number" class="form-control focus-ring" [(ngModel)]="cycleTime.projectId" [disabled]="true"/>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Variant ID</label>
+    <input type="number" class="form-control focus-ring" [(ngModel)]="cycleTime.variantId"  [disabled]="true"/>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Line ID</label>
+    <input type="number" class="form-control focus-ring" [(ngModel)]="cycleTime.lineId" [disabled]="true"/>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Machine ID</label>
+    <input type="number" class="form-control focus-ring" [(ngModel)]="cycleTime.machineId" [disabled]="true" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Step ID</label>
+    <input type="number" class="form-control focus-ring" [(ngModel)]="cycleTime.stepId" [disabled]="true" />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">User ID</label>
+    <input type="number" class="form-control focus-ring" [(ngModel)]="cycleTime.userId" [disabled]="true" />
+  </div>
+  <div class="form-group col-12 mb-3">
+    <h5>Theoritical Cycle Time</h5>
+    <label for="theoriticalDurationMinutes" class="form-label">Theoritical Cycle Time Duration:</label>
+    <div class="d-flex col-12 align-items-center">
+      <input
+        name="theoriticalDurationMinutes"
+        type="number"
+        id="theoriticalDurationMinutes"
+        class="form-control me-2"
+        placeholder="Min"
+        [(ngModel)]="theoriticalDurationMinutes"
+        (ngModelChange)="updateTheoriticalCycleTime()"
+        min="0"
+        aria-label="Minutes"
+      />
+      <span class="me-2">m</span>
+      <input
+        name="theoriticalDurationSeconds"
+        type="number"
+        id="theoriticalDurationSeconds"
+        class="form-control me-2"
+        placeholder="Sec"
+        [(ngModel)]="theoriticalDurationSeconds"
+        (ngModelChange)="updateTheoriticalCycleTime()"
+        min="0"
+        max="59"
+        aria-label="Seconds"
+      />
+      <span class="me-2">s</span>
+      <input
+        type="number"
+        name="theoriticalDurationMilliseconds"
+        id="theoriticalDurationMilliseconds"
+        class="form-control"
+        placeholder="Ms"
+        [(ngModel)]="theoriticalDurationMilliseconds"
+        (ngModelChange)="updateTheoriticalCycleTime()"
+        min="0"
+        max="999"
+        aria-label="Milliseconds"
+        style="width: 100px;"
+      />
+      <span class="ms-2">ms</span>
+    </div>
+  </div>
+
+  <!-- New: Client Cycle Time Duration Fields -->
+  <div class="form-group col-12 mb-3">
+    <h5>Client Cycle Time</h5>
+    <label for="clientDurationMinutes" class="form-label">Client Cycle Time Duration:</label>
+    <div class="d-flex col-12 align-items-center">
+      <input
+        name="clientDurationMinutes"
+        type="number"
+        id="clientDurationMinutes"
+        class="form-control me-2"
+        placeholder="Min"
+        [(ngModel)]="clientDurationMinutes"
+        (ngModelChange)="updateClientCycleTime()"
+        min="0"
+        aria-label="Minutes"
+      />
+      <span class="me-2">m</span>
+      <input
+        name="clientDurationSeconds"
+        type="number"
+        id="clientDurationSeconds"
+        class="form-control me-2"
+        placeholder="Sec"
+        [(ngModel)]="clientDurationSeconds"
+        (ngModelChange)="updateClientCycleTime()"
+        min="0"
+        max="59"
+        aria-label="Seconds"
+      />
+      <span class="me-2">s</span>
+      <input
+        type="number"
+        name="clientDurationMilliseconds"
+        id="clientDurationMilliseconds"
+        class="form-control"
+        placeholder="Ms"
+        [(ngModel)]="clientDurationMilliseconds"
+        (ngModelChange)="updateClientCycleTime()"
+        min="0"
+        max="999"
+        aria-label="Milliseconds"
+        style="width: 100px;"
+      />
+      <span class="ms-2">ms</span>
+    </div>
+  </div>
+
+  <button class="btn btn-dark mb-3 align-self-md-end" (click)="updateCycleTime()">Update Cycle</button>
+</div>

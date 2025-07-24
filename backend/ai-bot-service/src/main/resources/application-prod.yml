@@ -1,0 +1,75 @@
+# Server Configuration
+server:
+  port: 8081
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: ai-bot-service
+  cache:
+    type: caffeine
+    cache-names: conversations
+    caffeine:
+      spec: maximumSize=1000,expireAfterAccess=30m
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: true
+
+
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      base-url: https://generativelanguage.googleapis.com
+      chat:
+        completions-path: /v1beta/openai/chat/completions
+    google:
+
+      api-key: ${GOOGLE_API_KEY}
+
+
+gemini:
+  embedding-model-name: text-embedding-004
+
+
+jwt:
+  secret: ${JWT_SECRET}
+
+
+
+
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-discovery-service:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    hostname: ai-bot-service
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+
+logging:
+  level:
+    org.lear.aibotservice.services.AIQueryService: INFO

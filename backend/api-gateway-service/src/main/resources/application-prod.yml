@@ -1,0 +1,96 @@
+server:
+  port: 8008
+
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    config:
+      enabled: false
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - RewritePath=/user-service/(?<segment>.*), /${segment}
+            - name: AuthenticationFilter
+
+        - id: import-service
+          uri: lb://import-service
+          predicates:
+            - Path=/import-service/**
+          filters:
+            - RewritePath=/import-service/(?<segment>.*), /${segment}
+            - name: AuthenticationFilter
+        - id: machine-service
+          uri: lb://machine-service
+          predicates:
+            - Path=/machine-service/**
+          filters:
+            - RewritePath=/machine-service/(?<segment>.*), /${segment}
+            - name: AuthenticationFilter
+
+        - id: project-service
+          uri: lb://project-service
+          predicates:
+            - Path=/project-service/**
+          filters:
+            - RewritePath=/project-service/(?<segment>.*), /${segment}
+            - name: AuthenticationFilter
+
+        - id: cycletime-service
+          uri: lb://cycletime-service
+          predicates:
+            - Path=/cycletime-service/**
+          filters:
+            - RewritePath=/cycletime-service/(?<segment>.*), /${segment}
+            - name: AuthenticationFilter
+
+        - id: ai-bot-service
+          uri: lb://ai-bot-service
+          predicates:
+            - Path=/ai-bot-service/**
+          filters:
+            - RewritePath=/ai-bot-service/(?<segment>.*), /${segment}
+            - name: AuthenticationFilter
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: project-service
+        url: /project-service/v3/api-docs
+      - name: user-service
+        url: /user-service/v3/api-docs
+      - name: machine-service
+        url: /machine-service/v3/api-docs
+      - name: import-service
+        url: /import-service/v3/api-docs
+      - name: cycletime-service
+        url: /cycletime-service/v3/api-docs
+      - name: ai-bot-service
+        url: /ai-bot-service/v3/api-docs
+    config-url: /v3/api-docs/swagger-config
+
+  openapi:
+    server-url: http://${VPS_HOST}:8008
+

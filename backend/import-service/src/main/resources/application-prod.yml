@@ -1,0 +1,69 @@
+# Server Configuration
+server:
+  port: 8089
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: import-service
+
+  # Spring Cloud Configuration
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: true
+
+  # Multipart File Upload Configuration
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET
+
+
+# Eureka Discovery Configuration
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-discovery-service:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    hostname: import-service
+
+
+
+# Management Endpoints (Actuator)
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# Swagger/OpenAPI Documentation
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+# Logging Configuration
+logging:
+  level:
+    org.lmg.importservice: INFO
+    feign.client.config.default: INFO
+    org.springframework.data.jpa.repository.query: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicExtractor: INFO

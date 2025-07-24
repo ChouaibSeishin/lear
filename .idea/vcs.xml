@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/backend/Machine-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/backend/Project-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/backend/ai-bot-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/backend/api-gateway-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/backend/cycle-time-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/backend/eureka-discovery-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/backend/import-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/backend/user-service" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cycle-time-ui" vcs="Git" />
+  </component>
+</project>

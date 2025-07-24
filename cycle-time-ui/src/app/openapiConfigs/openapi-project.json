@@ -1,0 +1,6 @@
+{
+  "input": "http://localhost:8087/v3/api-docs",
+  "output": "src/app/services/api-project",
+  "ignoreUnusedModels": false,
+  "useHttpClientModule": true
+}

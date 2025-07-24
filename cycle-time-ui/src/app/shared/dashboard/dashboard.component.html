@@ -1,0 +1,179 @@
+
+<div class="container-md container-fluid mt-2">
+  <div class="row mb-3">
+    <div class="col-auto">
+      <label for="projectFilter" class="form-label visually-hidden">Select Project</label>
+      <select id="projectFilter" class="form-select focus-ring" [(ngModel)]="selectedProject" (change)="onFilterChange()" (ngModelChange)="availableVars(selectedProject?.id)">
+        <option [ngValue]="undefined">All Projects</option>
+        <option *ngFor="let project of availableProjects" [ngValue]="project">
+          {{ project.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <label for="variantFilter" class="form-label visually-hidden">Select Variant</label>
+      <select id="variantFilter" class="form-select focus-ring" [(ngModel)]="selectedVariant" (change)="onFilterChange()">
+        <option [ngValue]="undefined">All Variants</option>
+        <option *ngFor="let variant of availableVariants" [ngValue]="variant">
+          {{ variant.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row flex-wrap g-3 mb-4">
+    <div class="col-12  col-md-6 col-lg-4 col-xxl-3 ">
+      <div class="card bg-c-blue order-card">
+        <div class="card-block">
+          <h6 class="mb-2">Total Cycles</h6>
+          <h3 class="text-end"><i class="bi bi-stopwatch-fill f-left"></i><span>{{ totalCycles }}</span></h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-12  col-md-6 col-lg-4 col-xxl-3">
+      <div class="card bg-c-green order-card">
+        <div class="card-block">
+          <h6 class="mb-2">Std Dev </h6>
+          <h3 class="text-end"><i class="bi bi-bezier2 f-left"></i><span>{{ stdDevFormattedDuration  }}</span></h3>
+        </div>
+      </div>
+    </div>
+<!--    <div class="col-12  col-md-6 col-lg-4 col-xxl-3">-->
+<!--      <div class="card bg-c-yellow order-card">-->
+<!--        <div class="card-block">-->
+<!--          <h6 class="mb-2">Avg. Duration </h6>-->
+<!--          <h3 class="text-end"><i class="bi bi-diagram-3-fill f-left"></i><span>{{avgFormattedDuration }}</span></h3>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+    <div class="col-12  col-md-6 col-lg-4 col-xxl-3">
+      <div class="card bg-c-yellow order-card">
+        <div class="card-block">
+          <h6 class="mb-2">Total Production Lines</h6>
+          <h3 class="text-end"><i class="bi bi-bezier f-left"></i><span>{{ totalProductionLinesByProject }}</span></h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-12  col-md-6 col-lg-4 col-xxl-3">
+      <div class="card bg-c-pink order-card">
+        <div class="card-block">
+          <h6 class="mb-2">Pending Cycles</h6>
+          <h3 class="text-end"><i class="bi bi-hourglass-split f-left"></i><span>{{ totalCyclesPendingStatus }}</span></h3>
+        </div>
+      </div>
+    </div>
+<!--    <div class="col-12  col-md-6 col-lg-4 col-xxl-3">-->
+<!--      <div class="card bg-c-pink order-card">-->
+<!--        <div class="card-block">-->
+<!--          <h6 class="mb-2">Min / Max (ms)</h6>-->
+<!--          <h3 class="text-end"><i class="bi bi-plus-slash-minus f-left"></i><span>{{ minFormattedDuration }} / {{ maxFormattedDuration }}</span></h3>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+    <div class="col-12  col-md-6 col-lg-4 col-xxl-3">
+      <div class="card bg-c-cyan order-card">
+        <div class="card-block">
+          <h6 class="mb-2">Manual %</h6>
+          <h3 class="text-end"><i class="bi bi-hand-index f-left"></i><span>{{ manualPct | number:'1.0-0' }}%</span></h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-12  col-md-6 col-lg-4 col-xxl-3">
+      <div class="card bg-c-orange order-card">
+        <div class="card-block">
+          <h6 class="mb-2">On‑Time %</h6>
+          <h3 class="text-end"><i class="bi bi-check f-left"></i><span>{{ onTimePct | number:'1.0-0' }}%</span></h3>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-12">
+      <div class="card p-3">
+        <h5>Cycle Time Count Over Time</h5>
+        <canvas baseChart
+                [data]="lineChartData"
+                [type]="'line'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6>Cycle Time Distribution</h6>
+        <canvas baseChart
+                [data]="histData"
+                [type]="'bar'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6>Avg. Duration by Step</h6>
+        <canvas baseChart
+                [data]="barByStepData"
+                [type]="'bar'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6>Distribution by Variant</h6>
+        <canvas baseChart
+                [data]="variantPieData"
+                [type]="'doughnut'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6>Distribution of Projects by Line</h6>
+        <canvas baseChart
+                [data]="projectLineDistributionData"
+                [type]="'doughnut'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row g-4 mb-4">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6>Total Production Lines by Project</h6>
+        <canvas baseChart
+                [data]="totalProductionLinesByProjectChart"
+                [type]="'bar'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-3">
+        <h6>Avg Cycle Time by Variant</h6>
+        <canvas baseChart
+                [data]="avgCycleTimeByVariantChart"
+                [type]="'bar'"
+                [options]="chartOptions">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+  </div>
+</div>

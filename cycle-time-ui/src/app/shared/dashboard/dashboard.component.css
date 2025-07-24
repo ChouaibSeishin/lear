@@ -1,0 +1,74 @@
+.order-card,.order-card h3 {
+  color: #fff !important;
+}
+
+.bg-c-blue {
+  background: linear-gradient(45deg,#4099ff,#73b4ff);
+}
+.bg-c-cyan{
+  background: linear-gradient(45deg,#06b6af, #58e0db);
+}
+.bg-c-green {
+  background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+}
+.bg-c-orange{
+  background: linear-gradient(45deg, #b0d746, #ccec8f);
+
+}
+.bg-c-yellow {
+  background: linear-gradient(45deg,#FFB64D,#ffcb80);
+}
+
+.bg-c-pink {
+  background: linear-gradient(45deg,#FF5370,#ff869a);
+}
+
+
+.card {
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+  border: none;
+  margin-bottom: 30px;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+  padding: 20px;
+}
+
+.order-card i {
+  font-size: 26px;
+}
+
+.f-left {
+  float: left;
+}
+
+.f-right {
+  float: right;
+}
+/* Existing CSS (if any) */
+
+/* New CSS for small screens */
+@media (max-width: 767.98px) { /* This targets screens smaller than 'md' breakpoint */
+  .card.p-3 canvas {
+    height: 250px !important; /* Adjust this value as needed (e.g., 250px, 350px) */
+  }
+}
+
+/* You might also consider adjusting the height for other breakpoints if necessary */
+@media (min-width: 768px) and (max-width: 991.98px) { /* For medium screens */
+  .card.p-3 canvas {
+    height: 300px !important;
+  }
+
+
+}
+
+@media (min-width: 991.99px) {
+  .card.p-3 canvas {
+    height: 350px !important;
+  }
+}

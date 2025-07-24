@@ -1,0 +1,128 @@
+.sidebar {
+  width: 250px;
+  transition: width 0.3s ease;
+  overflow-x: hidden;
+  height: 100%;
+}
+.sidebar ul li a{
+  color: var(--bs-secondary) !important;
+  cursor: pointer;
+}
+
+
+
+.sidebar.collapsed {
+  width: 60px;
+
+}
+
+.sidebar.collapsed .link-text, .sidebar.collapsed .text-logo{
+  display: none;
+
+}
+
+/* Optional: center icons when collapsed */
+.sidebar.collapsed .nav-link, .sidebar.collapsed img {
+  justify-content: center;
+}
+.sidebar ul li{
+margin-bottom: 5px;
+
+}
+   .sidebar.collapsed  .side-header{
+  min-height: 63px;
+  border-color: var(--bs-secondary) !important;
+}
+.side-header{
+  min-height: 99px;
+
+}
+.bi{
+  font-size: 20px !important;
+  color: var(--bs-secondary);
+}
+.nav-wrapper , .side-header{
+  padding:0  10px 0 10px;
+}
+.nav-wrapper{
+  height: 100%;
+}
+.sidebar.collapsed .nav-wrapper, .sidebar.collapsed .side-header{
+  padding: 0;
+}
+
+.active-link {
+  border-radius: 2px;
+  border-left: 2px solid #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+
+}
+
+.nav-link:hover {
+  border-radius: 2px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+}
+.active-link i,.active-link span {
+  color: white !important;
+
+
+}
+.sidebar-footer{
+  border-top: solid .5px  !important;
+  border-top-color: #cccccc !important;
+}
+@media only screen and (max-width: 600px) {
+  .sidebar {
+    width: 100%;
+
+  }
+  .sidebar.collapsed{
+    width: 100%;
+
+  }
+  .sidebar.collapsed .nav-wrapper{
+    height: auto;
+
+  }
+  .sidebar.collapsed .nav{
+    display: flex;
+    flex-direction: row !important;
+    gap: 0 !important;
+    justify-content: space-around !important;
+
+  }
+  .sidebar.collapsed .text-logo{
+    display: block;
+  }
+  .sidebar-footer{
+    padding: 0 10px 0 10px;
+  }
+  .sidebar.collapsed .sidebar-footer{
+    display: none !important;
+    border-color: #283c50 !important;
+
+  }
+
+  .sidebar.collapsed .nav-item{
+    margin-bottom: 0;
+  }
+  /*.sidebar.collapsed .sidebar-footer .nav{*/
+  /*  display: flex;*/
+  /*  justify-content: end !important;*/
+  /*}*/
+  .sidebar.collapsed .nav-link i{
+    margin-right: 0 !important;
+    /*padding-left: 0 !important;*/
+    /*padding-right: 0 !important;*/
+  }
+  .active-link {
+    border-radius: 2px;
+    border-bottom: 2px solid #ffffff;
+    border-left: 0;
+    background: rgba(255, 255, 255, 0.08);
+
+  }
+
+}

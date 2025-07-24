@@ -1,0 +1,74 @@
+<div class="sidebar d-flex   flex-column  bg-dark text-white " [class.collapsed]="collapsed">
+
+<div class="side-header d-flex   px-2 align-items-center justify-content-center gap-2  ">
+  <img src="LEA.png" width="35px" alt="logo">
+  <h5 class="text-logo mb-0 text-secondary">Cycle-time <span class="fw-lighter">App</span> </h5>
+
+</div>
+
+  <div class=" nav-wrapper">
+  <ul class="nav d-flex h-100 flex-column gap-2  ">
+    <li class="nav-item">
+      <a routerLinkActive="active-link"
+         [routerLinkActiveOptions]="{exact: true}" class="nav-link d-flex align-items-center text-white" (click)="screen.width<=600 ? sidebarServ.setCollapsed(true):''" [routerLink]="['/dashboard']">
+        <i class="bi bi-speedometer me-2"></i>
+        <span class="link-text">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLinkActive="active-link"
+         [routerLinkActiveOptions]="{exact: false}" class="nav-link d-flex align-items-center text-white" (click)="screen.width<=600 ? sidebarServ.setCollapsed(true):''" [routerLink]="['/projects']">
+        <i class="bi bi-clipboard2-data-fill me-2"></i>
+        <span class="link-text">Projects</span>
+      </a>
+    </li> <li class="nav-item">
+    <a routerLinkActive="active-link"
+           [routerLinkActiveOptions]="{exact: false}" class="nav-link d-flex align-items-center text-white" (click)="screen.width<=600 ? sidebarServ.setCollapsed(true):''" [routerLink]="['/production-lines']">
+      <i class="bi bi-align-bottom me-2"></i>
+      <span class="link-text">Prod Lines</span>
+    </a>
+  </li> <li class="nav-item">
+    <a routerLinkActive="active-link"
+       [routerLinkActiveOptions]="{exact: false}" class="nav-link d-flex align-items-center text-white" (click)="screen.width<=600 ? sidebarServ.setCollapsed(true):''" [routerLink]="['/machines']">
+      <i class="bi bi-building-fill-gear me-2"></i>
+      <span class="link-text">Machines</span>
+    </a>
+  </li> <li class="nav-item">
+    <a routerLinkActive="active-link"
+       [routerLinkActiveOptions]="{exact: false}" class="nav-link d-flex align-items-center text-white" (click)="screen.width<=600 ? sidebarServ.setCollapsed(true):''" [routerLink]="['/cycle-times']">
+      <i class="bi bi-stopwatch-fill me-2"></i>
+      <span class="link-text">Cycle-time</span>
+    </a>
+  </li>
+    <li class="nav-item">
+      <a routerLinkActive="active-link"
+         [routerLinkActiveOptions]="{exact: false}" class="nav-link d-flex align-items-center text-white" (click)="screen.width<=600 ? sidebarServ.setCollapsed(true):''" [routerLink]="['/users']">
+        <i class="bi bi-people-fill me-2"></i>
+        <span class="link-text">Users</span>
+      </a>
+    </li>
+<!--    <li class="nav-item">-->
+<!--      <a routerLinkActive="active-link"-->
+<!--         [routerLinkActiveOptions]="{exact: true}" class="nav-link d-flex align-items-center text-white" [routerLink]="">-->
+<!--        <i class="bi bi-gear-fill me-2"></i>-->
+<!--        <span class="link-text">Settings</span>-->
+<!--      </a>-->
+<!--    </li>-->
+  </ul>
+</div>
+
+  <div class="sidebar-footer  d-flex ">
+    <div class="nav d-flex   w-100 align-self-end">
+     <div class="nav-item ">
+      <a (click)="logout()"
+          class="nav-link  d-flex align-items-center  cursor-pointer text-danger" >
+        <i class="bi bi-box-arrow-right text-danger  me-2"></i>
+        <span class="link-text">Logout</span>
+      </a>
+
+
+     </div>
+    </div>
+
+  </div>
+</div>

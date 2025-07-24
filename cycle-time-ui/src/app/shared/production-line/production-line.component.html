@@ -1,0 +1,132 @@
+<router-outlet></router-outlet>
+
+<div *ngIf="showTable">
+  <div class="container card " fxLayout="column" fxLayoutGap="20px">
+
+      <div class="card-header d-flex justify-content-between mb-1 py-2 align-items-center ">
+        <h5 class="mb-0">Production Lines</h5>
+        <button
+          class="btn btn-danger "
+          data-bs-toggle="modal"
+          data-bs-target="#addProductionLineModal"
+          [disabled]="!tokenService.hasRole('ROLE_ADMIN')">
+
+          Add Prod Line
+        </button>
+      </div>
+
+      <div class="card-body">
+
+      <input
+        type="text"
+        class="form-control mb-3 focus-ring"
+        placeholder="Search..."
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="applyFilters()"
+      />
+
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+          <tr>
+            <th (click)="sortBy('id')" class="cursor-pointer">ID</th>
+            <th (click)="sortBy('name')" class="cursor-pointer">Name</th>
+            <th (click)="sortBy('description')" class="cursor-pointer">Description</th>
+            <th class="text-center">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let line of paginatedProductionLines">
+            <td>
+              <div
+                class="rounded-circle bg-opacity-75 bg-danger text-light fw-bold d-flex justify-content-center align-items-center"
+                style="width: 30px; height: 30px;"
+              >
+                {{ line.id }}
+              </div>
+            </td>
+            <td>{{ line.name }}</td>
+            <td>{{ line.description }}</td>
+            <td>
+              <div class="d-flex w-100 h-100 justify-content-center gap-3">
+                <a class="cursor-pointer" (click)="goToDetails(line.id)">
+                  <i class="bi bi-clipboard-data-fill text-info"></i>
+                </a>
+                <a class="cursor-pointer" (click)="deleteProductionLine(line.id!)">
+                  <i class="bi bi-trash2-fill text-danger"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Controls -->
+      <nav *ngIf="totalPages() > 1">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+          </li>
+          <li
+            class="page-item"
+            *ngFor="let page of [].constructor(totalPages()); let i = index"
+            [class.active]="currentPage === i + 1"
+          >
+            <a class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages()">
+            <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Add Production Line Modal -->
+  <div
+    class="modal fade"
+    id="addProductionLineModal"
+    tabindex="-1"
+    aria-labelledby="addProductionLineModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form (ngSubmit)="submitProductionLine()" #lineForm="ngForm">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProductionLineModalLabel">Add Production Line</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="lineName" class="form-label">Line Name</label>
+              <input
+                type="text"
+                class="form-control focus-ring"
+                id="lineName"
+                name="name"
+                required
+                [(ngModel)]="newProductionLine.name"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="lineDescription" class="form-label">Description</label>
+              <textarea
+                class="form-control focus-ring"
+                id="lineDescription"
+                name="desc"
+               type="text"
+                [(ngModel)]="newProductionLine.description"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-dark" [disabled]="lineForm.invalid">Save</button>
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

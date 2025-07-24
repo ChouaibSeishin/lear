@@ -1,0 +1,39 @@
+<script>
+  function setAppHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  window.addEventListener('resize', setAppHeight);
+  window.addEventListener('orientationchange', setAppHeight);
+  setAppHeight();
+</script>
+
+<div class="d-flex layout">
+  <app-sidebar class="stick-top"></app-sidebar>
+
+  <div class="main-wrapper flex-grow-1 d-flex flex-column">
+    <app-header class="sticky-top bg-light"></app-header>
+
+    <main class="flex-grow-1 p-3 pb-0 d-flex flex-column  bg-light h-100">
+      <router-outlet></router-outlet>
+      <div class="chatbot-container">
+        <button
+          class="btn btn-outline-danger  btn-chatbot cursor-pointer "
+          (click)="openChatBotModal()"
+        >
+          <i class="bi bi-robot fs-3"></i>
+        </button>
+        <div class="speech-bubble">
+          Hi I am your AI assistant
+        </div>
+      </div>
+      <app-footer class=""></app-footer>
+
+    </main>
+
+
+
+
+
+  </div>
+</div>

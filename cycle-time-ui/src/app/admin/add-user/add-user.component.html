@@ -1,0 +1,85 @@
+<div class="container card mt-3" fxLayout="column" fxLayoutGap="20px">
+  <div>
+    <h4>Add New User</h4>
+    <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="20px">
+
+      <!-- First & Last Name -->
+      <div fxLayout="row wrap" fxLayoutGap="20px">
+        <div fxFlex.xs="100%" fxFlex.gt-xs="calc(50% - 10px)">
+          <label for="firstName">First Name</label>
+          <input id="firstName" class="form-control focus-ring" type="text" formControlName="firstName" />
+          <div *ngIf="f['firstName'].invalid && (!f['firstName'].untouched || f['firstName'].dirty)">
+            <div class="text-danger" *ngIf="f['firstName'].errors?.['required']">
+              First name is required
+            </div>
+          </div>
+
+        </div>
+
+        <div fxFlex.xs="100%" fxFlex.gt-xs="calc(50% - 10px)">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" class="form-control focus-ring" type="text" formControlName="lastName" />
+          <div class="text-danger" *ngIf="f['lastName'].errors?.['required'] && (!f['lastName'].untouched || f['lastName'].dirty)">
+            Last name is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Email & Password -->
+      <div fxLayout="row wrap" fxLayoutGap="20px">
+        <div fxFlex.xs="100%" fxFlex.gt-xs="calc(50% - 10px)">
+          <label for="email">Email</label>
+          <input id="email" class="form-control focus-ring" type="email" formControlName="email" />
+          <div class="text-danger" *ngIf="f['email'].errors?.['required'] && (!f['email'].untouched || f['email'].dirty)">Email is required</div>
+          <div class="text-danger" *ngIf="f['email'].errors?.['email']">Invalid email format</div>
+        </div>
+
+        <div fxFlex.xs="100%" fxFlex.gt-xs="calc(50% - 10px)">
+          <label for="password">Password</label>
+          <div class="password-wrapper">
+            <input id="password" class="form-control focus-ring" [type]="hide ? 'password' : 'text'" formControlName="password" />
+            <button type="button" class="btn btn-transparent border-0" (click)="hide = !hide">{{ hide ? '👁️' : '🙈' }}</button>
+          </div>
+          <div class="text-danger" *ngIf="f['password'].errors?.['required'] && (!f['password'].untouched || f['password'].dirty)">
+            Password is required
+          </div>
+          <div class="text-danger" *ngIf="f['password'].errors?.['minlength']">
+            Password must be at least 8 characters
+          </div>
+        </div>
+      </div>
+
+      <!-- Role and code -->
+
+      <div fxLayout="row wrap" fxLayoutGap="20px">
+        <div fxFlex.xs="100%" fxFlex.gt-xs="calc(50% - 10px)">
+          <label for="roleName">Role</label>
+          <select id="roleName" class="form-control focus-ring" formControlName="roleName">
+            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+          </select>
+          <div class="text-danger" *ngIf="f['roleName']?.errors?.['required'] && (!f['roleName'].untouched || f['roleName'].dirty)">
+            Role is required
+          </div>
+        </div>
+
+        <div fxFlex.xs="100%" fxFlex.gt-xs="calc(50% - 10px)">
+          <label for="code">code</label>
+          <input id="code" class="form-control focus-ring" type="text" formControlName="code" />
+          <div class="text-danger" *ngIf="f['code'].errors?.['required'] && (!f['code'].untouched || f['email'].dirty)">Code is required</div>
+        </div>
+      </div>
+
+
+
+
+      <!-- Submit Button -->
+      <div>
+        <button class="btn btn-danger" type="submit" [disabled]="addUserForm.invalid">
+          Add User
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+

@@ -1,0 +1,25 @@
+/* You can add any custom styles here that are not covered by Tailwind CSS. */
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Ensure consistent box-sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Example of a custom hover effect if Tailwind's hover: isn't enough */
+
+.drag-drop-zone:hover {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4) !important;
+  background: rgba(76, 185, 206, 0.68);
+}
+.text-muted{
+  color: rgba(76, 185, 206, 0.82) !important;
+}
+.dashed{
+  border: 1px dashed rgba(76, 185, 206, 0.98) !important;
+
+}
+

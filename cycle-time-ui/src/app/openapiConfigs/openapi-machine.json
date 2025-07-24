@@ -1,0 +1,6 @@
+{
+  "input": "http://localhost:8008/machine-service/v3/api-docs",
+  "output": "src/app/services/api-machine",
+  "ignoreUnusedModels": false,
+  "useHttpClientModule": true
+}

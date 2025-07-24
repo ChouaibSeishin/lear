@@ -1,0 +1,76 @@
+<div class="container card mt-3 p-4" *ngIf="user">
+  <div class="d-flex justify-content-between">
+    <h4>User Profile</h4>
+    <button class="btn btn-danger" (click)="openPasswordModal(passwordModal)">
+      Update Password
+    </button>
+  </div>
+
+
+  <div class="mb-3">
+    <label class="form-label">First Name</label>
+    <input type="text" class="form-control" [value]="user.firstName" readonly />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Last Name</label>
+    <input type="text" class="form-control" [value]="user.lastName" readonly />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="email" class="form-control" [value]="user.email" readonly />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Role</label>
+    <input type="text" class="form-control" [value]="user.roleName" readonly />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Code</label>
+    <input type="text" class="form-control" [value]="user.code" readonly />
+  </div>
+
+  <div class="form-check mb-2">
+    <input class="form-check-input" type="checkbox" [checked]="user.enabled" disabled />
+    <label class="form-check-label">Enabled</label>
+  </div>
+
+  <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" [checked]="user.accountLocked" disabled />
+    <label class="form-check-label">Account Locked</label>
+  </div>
+
+
+</div>
+
+<!-- Password Modal -->
+<ng-template #passwordModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Update Password</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+
+    <div class="mb-3">
+      <label class="form-label">Current Password</label>
+      <input type="password" class="form-control" [(ngModel)]="passwordData.currentPassword" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">New Password</label>
+      <input type="password" class="form-control" [(ngModel)]="passwordData.newPassword" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Confirm New Password</label>
+      <input type="password" class="form-control" [(ngModel)]="passwordData.confirmPassword" />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-dark" (click)="modal.dismiss()">Cancel</button>
+    <button class="btn btn-danger" (click)="updatePassword(modal)">Save</button>
+  </div>
+</ng-template>

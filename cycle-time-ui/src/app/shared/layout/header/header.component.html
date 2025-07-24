@@ -1,0 +1,66 @@
+
+<nav class=" navbar navbar-expand-lg d-flex justify-content-between navbar-dark bg-danger px-3">
+
+  <div class="d-flex align-items-center">
+    <button class="btn border-0 me-3 menu-btn" (click)="toggleSidebar()"><i class="bi bi-list fs-4 text-light"></i></button>
+
+    <ul class="navbar-nav flex-row">
+      <li class="nav-item me-3">
+        <a class="nav-link text-white" routerLink="/dashboard"> <span [ngClass]="window.innerWidth>750?'d-block':'d-none'">Dashboard</span><i class="bi bi-speedometer " [ngClass]="window.innerWidth<750?'d-block':'d-none'"></i></a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link text-white" routerLink="/users"> <span [ngClass]="window.innerWidth>750?'d-block':'d-none'">Users</span><i class="bi bi-people-fill " [ngClass]="window.innerWidth<750?'d-block':'d-none'"></i></a>
+      </li>
+      <li class="nav-item me-3">
+        <a class="nav-link text-white" routerLink="/settings"> <span [ngClass]="window.innerWidth>750?'d-block':'d-none'">Settings</span><i class="bi bi-gear-fill " [ngClass]="window.innerWidth<750?'d-block':'d-none'"></i></a>
+      </li>
+    </ul>
+  </div>
+
+  <div class=" d-flex align-items-center">
+
+    <div class="import">
+      <a class="bi bi-download text-white fs-4 me-4" [routerLink]="['/admin/import']"></a>
+    </div>
+    <!-- Notifications Icon -->
+    <div class="dropdown " >
+      <a class=""  href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+        <i class="bi bi-bell text-white fs-4 me-4" [matBadge]="logs.length" style="cursor: pointer;"></i>
+
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end overflow-scroll p-2 " style="height: 199px">
+        <li *ngFor="let log of logs" class="d-flex justify-content-between ">
+          <a class="dropdown-item" >{{log.userDto?.lastName+" "+log.action}}</a>
+          <button class="btn btn-transparent del-notif" (click)="markAsSeen(log.id)"><i class="bi bi-bookmark-check"></i></button>
+        </li>
+
+      </ul>
+    </div>
+
+
+
+    <!-- Avatar -->
+    <div
+      class="rounded-circle bg-white cursor-pointer text-primary fw-bold d-flex justify-content-center align-items-center"
+      style="width: 30px; height: 30px;" [routerLink]="['/profile']"
+    >
+      {{ userInitial }}
+    </div>
+  </div>
+</nav>
+<div class=" d-flex breadcrumbs  align-items-center py-2 px-3 border-bottom shadow">
+  <a class="" routerLink="/">Home</a>
+
+  <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+    <span class="mx-2">/</span>
+    <ng-container *ngIf="!last">
+      <a class="text-decoration-none" [routerLink]="crumb.url">{{ crumb.label }}</a>
+    </ng-container>
+    <ng-container *ngIf="last">
+      <span class="text-secondary">{{ crumb.label }}</span>
+    </ng-container>
+  </ng-container>
+</div>
+
+
+

@@ -1,0 +1,57 @@
+name: Build and Push user-service
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-dispatch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build user-service JAR with Maven (prod)
+
+        run: ./mvnw clean package -DskipTests -Pprod
+
+      # --- Docker Buildx Setup ---
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      # --- Build and Push user-service Docker image ---
+      - name: Build and Push user-service Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # Dockerfile is assumed to be at the root of this service's repo
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:latest # Use the exact service name from docker-compose.yml
+          platforms: linux/amd64,linux/arm64
+
+      # --- Trigger deployment in infrastructure repository ---
+      - name: Trigger stack deployment on VPS
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          # IMPORTANT: This PAT_TOKEN must be a GitHub Personal Access Token
+          # with 'repo' scope, granted access to your 'my-project-infra' repo.
+          token: ${{ secrets.PAT_TOKEN }}
+          # IMPORTANT: Adjust 'your-github-org/my-project-infra' to your actual infra repo path.
+          repository: Lear-co/deployment-infrastructure
+          # This 'event-type' must match the 'types' specified in your infra repo's deploy-stack.yml
+          event-type: deploy-service
+          # This 'client-payload' passes the service name that was updated to the infra repo.
+          # Use the exact service name from your docker-compose.yml (user-service).
+          client-payload: '{"service_name": "user-service"}'

@@ -1,0 +1,6 @@
+{
+  "input": "http://localhost:8008/user-service/v3/api-docs",
+  "output": "src/app/services/api-auth2",
+  "ignoreUnusedModels": false,
+  "useHttpClientModule": true
+}

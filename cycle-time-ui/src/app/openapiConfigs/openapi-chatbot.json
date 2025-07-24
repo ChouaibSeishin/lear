@@ -1,0 +1,6 @@
+{
+  "input": "http://localhost:8008/ai-bot-service/v3/api-docs",
+  "output": "src/app/services/api-chat-bot",
+  "ignoreUnusedModels": false,
+  "useHttpClientModule": true
+}

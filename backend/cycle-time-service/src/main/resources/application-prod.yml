@@ -1,0 +1,71 @@
+# Server Port
+server:
+  port: 8088
+  servlet:
+    context-path: /
+
+
+spring:
+  application:
+    name: cycletime-service
+
+  # Database Configuration
+  datasource:
+    url: jdbc:mysql://mysql-cycletime-db:3306/cycletime_db # Uses Docker Compose service name for DB
+    username: ${MYSQL_CYCLETIME_USERNAME} # Read from environment variable
+    password: ${MYSQL_CYCLETIME_PASSWORD} # Read from environment variable
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA/Hibernate Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update # For initial deployment. Consider 'none' or 'validate' for subsequent production updates.
+    show-sql: false # Set to false for production to reduce log verbosity and for security
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format-sql: false # Set to false for production
+
+  # Spring Cloud Configuration
+  cloud:
+    config:
+      enabled: false # Disable Spring Cloud Config if not using a dedicated Config Server
+    discovery:
+      enabled: true
+
+# Eureka Discovery Configuration (top-level as it's not under 'spring' directly in your original)
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-discovery-service:8761/eureka/ # Uses Docker Compose service name for Eureka
+  instance:
+    prefer-ip-address: false # Prefer hostname (service name) for registration in Docker Compose
+    instance-id: ${spring.application.name}:${server.port} # Dynamic instance ID
+    hostname: cycletime-service # Docker Compose service name
+    non-secure-port: 8088 # Explicitly define the non-secure port
+
+# Management Endpoints (Actuator)
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Expose all endpoints for monitoring. Adjust this for stricter security if needed.
+        # Your original had 'exclude: "*"', which would hide all endpoints.
+        # Changed to 'include: "*"' for consistency with other services and general monitoring.
+
+# JWT Secret
+jwt:
+  secret: ${JWT_SECRET} # Read from environment variable
+
+# Swagger/OpenAPI Documentation
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true # Ensure Swagger UI is enabled
+    path: /swagger-ui.html

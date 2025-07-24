@@ -1,0 +1,184 @@
+<div class="modal-header bg-danger text-white rounded-top p-4">
+  <div class="d-flex align-items-center">
+    <i class="bi bi-robot text-white fs-3 me-2"></i>
+    <h5 class="modal-title text-white">RAG AI Assistant</h5>
+    <span class="badge bg-light text-dark ms-2" [className]="window.innerWidth>=600?'d-block badge bg-light text-dark ms-2':'d-none '">Production Expert</span>
+  </div>
+  <button type="button" class="btn-close btn-close-white text-white" (click)="close()" aria-label="Close"></button>
+</div>
+
+<div class="bg-light border-bottom">
+  <div class="d-flex justify-content-between align-items-center p-3 cursor-pointer"
+       (click)="toggleQuickQuestions()">
+    <small class="mb-0 text-muted">
+      <i class="bi bi-question-circle me-2"></i>Quick Questions
+    </small>
+    <button class="btn btn-sm btn-link text-danger" type="button"
+            data-bs-toggle="collapse" [attr.aria-expanded]="!quickQuestionsCollapsed"
+            aria-controls="quickQuestionsCollapse">
+      <i class="bi" [ngClass]="{'bi-chevron-down': quickQuestionsCollapsed, 'bi-chevron-up': !quickQuestionsCollapsed}"></i>
+    </button>
+  </div>
+
+  <div class="collapse" [ngClass]="{'show': !quickQuestionsCollapsed}" id="quickQuestionsCollapse">
+    <div class="d-flex flex-wrap gap-2 p-3 pt-0">
+      <small class="text-muted me-2 visually-hidden">Quick questions:</small> <button
+      *ngFor="let question of quickQuestions"
+      class="btn btn-sm btn-outline-primary rounded-pill"
+      (click)="askQuickQuestion(question)"
+      [disabled]="loading">
+      {{ question }}
+    </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body chat-container bg-light p-4 d-flex flex-column "
+     style="overflow-y: auto;" #chatContainer>
+
+
+  <div *ngFor="let message of messages; let i = index" class="mb-3 col-11"
+       [ngClass]="{
+         'ms-auto text-end': message.sender === 'user',
+         'me-auto text-start': message.sender === 'bot'
+       }">
+
+    <div class="d-inline-block p-3 rounded-3 shadow-sm position-relative"
+         [ngClass]="{
+           'user-chat-bg bg-danger text-white': message.sender === 'user',
+           'bot-chat-bg bg-white border text-dark': message.sender === 'bot'
+         }">
+
+      <div [innerHTML]="message.text | nl2br"></div>
+
+      <div *ngIf="message.sender === 'bot' && message.confidence !== undefined"
+           class="mt-2 pt-2 border-top">
+        <small class="d-flex align-items-center justify-content-between">
+          <span>
+            Confidence:
+            <span [ngClass]="getConfidenceColor(message.confidence)">
+              {{ getConfidenceText(message.confidence) }} ({{ (message.confidence * 100) | number:'1.0-0' }}%)
+            </span>
+          </span>
+
+          <button *ngIf="message.sources && message.sources.length > 0"
+                  class="btn btn-sm btn-outline-info rounded-pill ms-2"
+                  (click)="toggleSources(message.sources)">
+            <i class="bi bi-info-circle me-1"></i>
+            {{ message.sources.length }} Sources
+          </button>
+        </small>
+      </div>
+
+      <div class="mt-1">
+        <small class="opacity-75">
+          {{ message.timestamp | date:'short' }}
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center mt-3">
+    <div class="spinner-border text-danger" role="status">
+      <span class="visually-hidden">Thinking...</span>
+    </div>
+    <div class="mt-2">
+      <small class="text-muted">Searching knowledge base...</small>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showSources && currentSources.length > 0"
+     class="border-top bg-light p-3"
+     style="max-height: 200px; overflow-y: auto;">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h6 class="mb-0">
+      <i class="bi bi-database me-1"></i>
+      Information Sources
+    </h6>
+    <button class="btn btn-sm btn-outline-secondary" (click)="showSources = false">
+      <i class="bi bi-x"></i>
+    </button>
+  </div>
+
+  <div class="row g-2">
+    <div *ngFor="let source of currentSources; let i = index"
+         class="col-12">
+      <div class="card card-body py-2 px-3">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="flex-grow-1">
+            <div class="d-flex align-items-center mb-1">
+              <span class="badge bg-primary me-2">{{ source.entityType | titlecase }}</span>
+              <small class="text-muted">ID: {{ source.entityId }}</small>
+            </div>
+            <small class="text-truncate d-block">{{ source.content }}</small>
+          </div>
+          <div class="text-end ms-2">
+            <div class="progress" style="width: 60px; height: 8px;">
+              <div class="progress-bar"
+                   [style.width.%]="source.similarity! * 100"
+                   [ngClass]="{
+                     'bg-success': source.similarity! >= 0.8,
+                     'bg-warning': source.similarity! >= 0.5 && source.similarity! < 0.8,
+                     'bg-danger': source.similarity! < 0.5
+                   }">
+              </div>
+            </div>
+            <small class="text-muted d-block">{{ (source.similarity! * 100) | number:'1.0-0' }}%</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer p-4 d-flex flex-column-reverse flex-md-row justify-content-between ">
+
+  <div class="d-flex gap-2 mb-2 mb-md-0">
+    <button type="button"
+            class="btn btn-outline-secondary rounded-pill"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Reset and start a new chat"
+            (click)="startNewChat()"
+            [disabled]="loading">
+      <i class="bi bi-pencil-square fs-6"></i>
+    </button>
+
+    <button type="button"
+            class="btn btn-outline-info rounded-pill"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Toggle sources panel"
+            (click)="showSources = !showSources"
+            [disabled]="currentSources.length === 0">
+      <i class="bi bi-database fs-6"></i>
+    </button>
+
+    <button type="button"
+            class="btn btn-outline-danger rounded-pill"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Reindex the knowledge base (admin action)"
+            (click)="reindexKnowledgeBase()"
+            [disabled]="loading">
+      <i class="bi bi-arrow-clockwise fs-6"></i> Reindex
+    </button>
+  </div>
+
+  <div class="d-flex flex-grow-1">
+    <input type="text"
+           [(ngModel)]="userInput"
+           (keydown.enter)="send()"
+           class="form-control border-danger rounded-pill focus-ring focus-ring-danger py-2"
+           placeholder="Ask about machines, production lines, steps, projects..."
+           [disabled]="loading" />
+
+    <button class="btn btn-danger rounded-pill ms-2"
+            (click)="send()"
+            [disabled]="loading || !userInput.trim()">
+      <i class="bi bi-send-arrow-up-fill fs-6" *ngIf="!loading"></i>
+      <span class="spinner-border spinner-border-sm" *ngIf="loading"></span>
+    </button>
+  </div>
+</div>
