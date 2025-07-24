@@ -86,6 +86,8 @@ services:
       - "${MYSQL_USER_PORT}:3306"
     networks:
       - mynetwork
+    volumes:
+      - mysql-user-data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -101,6 +103,8 @@ services:
       - "${MYSQL_CYCLETIME_PORT}:3306"
     networks:
       - mynetwork
+    volumes:
+      - mysql-cycletime-data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -116,6 +120,8 @@ services:
       - "${MYSQL_MACHINE_PORT}:3306"
     networks:
       - mynetwork
+    volumes:
+      - mysql-machine-data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -131,6 +137,8 @@ services:
       - "${MYSQL_PROJECT_PORT}:3306"
     networks:
       - mynetwork
+    volumes:
+      - mysql-project-data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -156,3 +164,10 @@ services:
       - api-gateway-service
     networks:
       - mynetwork
+
+
+volumes:
+  mysql-user-data:
+  mysql-cycletime-data:
+  mysql-machine-data:
+  mysql-project-data:
